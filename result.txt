@@ -1,0 +1,172 @@
+===== BANGLA COMPILER =====
+
+===== TOKENS =====
+1 : START -> শুরু
+3 : DECLARE -> ধরো
+3 : INT_TYPE -> সংখ্যা
+3 : IDENTIFIER -> বয়স
+3 : ASSIGN -> =
+3 : INTEGER -> 20
+3 : SEMICOLON -> ;
+4 : DECLARE -> ধরো
+4 : REAL_TYPE -> বাস্তব
+4 : IDENTIFIER -> উচ্চতা
+4 : ASSIGN -> =
+4 : DECIMAL -> 5.6
+4 : SEMICOLON -> ;
+6 : IF -> যদি
+6 : LEFT_PAREN -> (
+6 : IDENTIFIER -> বয়স
+6 : GREATER -> >
+6 : INTEGER -> 18
+6 : RIGHT_PAREN -> )
+6 : LEFT_BRACE -> {
+7 : PRINT -> দেখাও
+7 : LEFT_PAREN -> (
+7 : IDENTIFIER -> বয়স
+7 : RIGHT_PAREN -> )
+7 : SEMICOLON -> ;
+8 : RIGHT_BRACE -> }
+9 : ELSE -> নাহলে
+9 : LEFT_BRACE -> {
+10 : PRINT -> দেখাও
+10 : LEFT_PAREN -> (
+10 : INTEGER -> 0
+10 : RIGHT_PAREN -> )
+10 : SEMICOLON -> ;
+11 : RIGHT_BRACE -> }
+13 : WHILE -> যতক্ষণ
+13 : LEFT_PAREN -> (
+13 : IDENTIFIER -> বয়স
+13 : LESS -> <
+13 : INTEGER -> 25
+13 : RIGHT_PAREN -> )
+13 : LEFT_BRACE -> {
+14 : PRINT -> দেখাও
+14 : LEFT_PAREN -> (
+14 : IDENTIFIER -> বয়স
+14 : RIGHT_PAREN -> )
+14 : SEMICOLON -> ;
+15 : IDENTIFIER -> বয়স
+15 : ASSIGN -> =
+15 : IDENTIFIER -> বয়স
+15 : PLUS -> +
+15 : INTEGER -> 1
+15 : SEMICOLON -> ;
+16 : RIGHT_BRACE -> }
+18 : END -> শেষ
+18 : EOF -> 
+
+===== PARSER =====
+Parsing successful!
+Parsing successful!
+
+===== PARSE TREE (AST) =====
+Program
+  Declaration(সংখ্যা বয়স)
+    Number(20)
+  Declaration(বাস্তব উচ্চতা)
+    Number(5.6)
+  If(>)
+    Condition-Left:
+      Id(বয়স)
+    Condition-Right:
+      Number(18)
+    Then:
+      Print
+        Id(বয়স)
+    Else:
+      Print
+        Number(0)
+  While(<)
+    Condition-Left:
+      Id(বয়স)
+    Condition-Right:
+      Number(25)
+    Body:
+      Print
+        Id(বয়স)
+      Assignment(বয়স)
+        BinaryExpr(+)
+          Id(বয়স)
+          Number(1)
+
+===== SEMANTIC ANALYSIS =====
+
+Starting semantic analysis...
+
+Checking declaration: বয়স
+Declared type: সংখ্যা
+Expression type: সংখ্যা
+Type check: OK
+Result: OK
+
+Checking declaration: উচ্চতা
+Declared type: বাস্তব
+Expression type: বাস্তব
+Type check: OK
+Result: OK
+
+Checking IF condition
+Left expression type: সংখ্যা
+Right expression type: সংখ্যা
+Condition type check: OK
+
+Checking print expression
+Expression type: সংখ্যা
+Result: OK
+
+Checking print expression
+Expression type: সংখ্যা
+Result: OK
+
+Checking WHILE condition
+Left expression type: সংখ্যা
+Right expression type: সংখ্যা
+Condition type check: OK
+
+Checking print expression
+Expression type: সংখ্যা
+Result: OK
+
+Checking assignment: বয়স
+Variable type: সংখ্যা
+Expression type: সংখ্যা
+Type check: OK
+Result: OK
+
+All semantic checks passed.
+Semantic analysis successful!
+
+===== SYMBOL TABLE =====
+Name	Type	Status
+উচ্চতা	বাস্তব	initialized
+বয়স	সংখ্যা	initialized
+
+===== THREE ADDRESS CODE =====
+
+===== THREE ADDRESS CODE =====
+বয়স = 20
+উচ্চতা = 5.6
+t0 = বয়স > 18
+ifFalse t0 goto L0
+print বয়স
+goto L1
+L0:
+print 0
+L1:
+L2:
+t1 = বয়স < 25
+ifFalse t1 goto L3
+print বয়স
+t2 = বয়স + 1
+বয়স = t2
+goto L2
+L3:
+
+===== CODE GENERATION =====
+Python code generated successfully!
+Output file: output.py
+
+===== COMPILATION FINISHED =====
+Complete compiler output saved to result.txt
